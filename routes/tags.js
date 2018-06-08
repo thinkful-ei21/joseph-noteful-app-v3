@@ -90,7 +90,7 @@ router.put('/:id', (req, res, next) => {
   }
 
   if (!name) {
-    const err = new Error('Missing "name" is request body');
+    const err = new Error('Missing "name" in request body');
     err.status = 400;
     return next(err);
   }
