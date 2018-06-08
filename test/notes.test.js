@@ -34,9 +34,9 @@ describe('Noteful API - Notes', () => {
     return mongoose.disconnect();
   });
 
-  describe('GET /api/notes', function () {
+  describe('GET /api/notes', function() {
 
-    it('should return the correct number of Notes', function () {
+    it('should return the correct number of Notes', function() {
       return Promise.all([
         Note.find(),
         chai.request(app).get('/api/notes')
@@ -49,7 +49,7 @@ describe('Noteful API - Notes', () => {
         });
     });
 
-    it('should return a list with the correct right fields', function () {
+    it('should return a list with the correct fields', function() {
       return Promise.all([
         Note.find().sort({ updatedAt: 'desc' }),
         chai.request(app).get('/api/notes')
@@ -59,7 +59,7 @@ describe('Noteful API - Notes', () => {
           expect(res).to.be.json;
           expect(res.body).to.be.a('array');
           expect(res.body).to.have.length(data.length);
-          res.body.forEach(function (item, i) {
+          res.body.forEach(function(item, i) {
             expect(item).to.be.a('object');
             expect(item).to.include.all.keys('id', 'title', 'createdAt', 'updatedAt');
             expect(item.id).to.equal(data[i].id);
@@ -71,7 +71,7 @@ describe('Noteful API - Notes', () => {
         });
     });
 
-    it('should return correct search results for a searchTerm query', function () {
+    it('should return correct search results for a searchTerm query', function() {
       const searchTerm = 'gaga';
       // const re = new RegExp(searchTerm, 'i');
       const dbPromise = Note.find({
@@ -87,7 +87,7 @@ describe('Noteful API - Notes', () => {
           expect(res).to.be.json;
           expect(res.body).to.be.a('array');
           expect(res.body).to.have.length(1);
-          res.body.forEach(function (item, i) {
+          res.body.forEach(function(item, i) {
             expect(item).to.be.a('object');
             expect(item).to.include.all.keys('id', 'title', 'createdAt', 'updatedAt');
             expect(item.id).to.equal(data[i].id);
@@ -99,7 +99,7 @@ describe('Noteful API - Notes', () => {
         });
     });
 
-    it('should return an empty array for an incorrect query', function () {
+    it('should return an empty array for an incorrect query', function() {
       const searchTerm = 'NotValid';
       // const re = new RegExp(searchTerm, 'i');
       const dbPromise = Note.find({
@@ -117,9 +117,9 @@ describe('Noteful API - Notes', () => {
     });
   });
   
-  describe('GET /api/notes/:id', function () {
+  describe('GET /api/notes/:id', function() {
 
-    it('should return correct notes', function () {
+    it('should return correct note', function() {
       let data;
       return Note.findOne()
         .then(_data => {
@@ -139,7 +139,7 @@ describe('Noteful API - Notes', () => {
         });
     });
 
-    it('should respond with status 400 and an error message when `id` is not valid', function () {
+    it('should respond with status 400 and an error message when `id` is not valid', function() {
       return chai.request(app)
         .get('/api/notes/NOT-A-VALID-ID')
         .then(res => {
@@ -148,7 +148,7 @@ describe('Noteful API - Notes', () => {
         });
     });
 
-    it('should respond with a 404 for an id that does not exist', function () {
+    it('should respond with a 404 for an id that does not exist', function() {
       // The string "DOESNOTEXIST" is 12 bytes which is a valid Mongo ObjectId
       return chai.request(app)
         .get('/api/notes/DOESNOTEXIST')
@@ -159,9 +159,9 @@ describe('Noteful API - Notes', () => {
 
   });
 
-  describe('POST /api/notes', function () {
+  describe('POST /api/notes', function() {
 
-    it('should create and return a new item when provided valid data', function () {
+    it('should create and return a new item when provided valid data', function() {
       const newItem = {
         'title': 'The best article about cats ever!',
         'content': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...'
@@ -170,7 +170,7 @@ describe('Noteful API - Notes', () => {
       return chai.request(app)
         .post('/api/notes')
         .send(newItem)
-        .then(function (_res) {
+        .then(function(_res) {
           res = _res;
           expect(res).to.have.status(201);
           expect(res).to.have.header('location');
@@ -188,7 +188,7 @@ describe('Noteful API - Notes', () => {
         });
     });
 
-    it('should return an error when missing "title" field', function () {
+    it('should return an error when missing "title" field', function() {
       const newItem = {
         'content': 'Lorem ipsum dolor sit amet, sed do eiusmod tempor...'
       };
@@ -205,9 +205,9 @@ describe('Noteful API - Notes', () => {
 
   });
 
-  describe('PUT /api/notes/:id', function () {
+  describe('PUT /api/notes/:id', function() {
 
-    it('should update the note when provided valid data', function () {
+    it('should update the note when provided valid data', function() {
       const updateItem = {
         'title': 'What about dogs?!',
         'content': 'woof woof'
@@ -220,7 +220,7 @@ describe('Noteful API - Notes', () => {
             .put(`/api/notes/${data.id}`)
             .send(updateItem);
         })
-        .then(function (res) {
+        .then(function(res) {
           expect(res).to.have.status(200);
           expect(res).to.be.json;
           expect(res.body).to.be.a('object');
@@ -235,7 +235,7 @@ describe('Noteful API - Notes', () => {
     });
 
 
-    it('should respond with status 400 and an error message when `id` is not valid', function () {
+    it('should respond with status 400 and an error message when `id` is not valid', function() {
       const updateItem = {
         'title': 'What about dogs?!',
         'content': 'woof woof'
@@ -249,7 +249,7 @@ describe('Noteful API - Notes', () => {
         });
     });
 
-    it('should respond with a 404 for an id that does not exist', function () {
+    it('should respond with a 404 for an id that does not exist', function() {
       // The string "DOESNOTEXIST" is 12 bytes which is a valid Mongo ObjectId
       const updateItem = {
         'title': 'What about dogs?!',
@@ -263,7 +263,7 @@ describe('Noteful API - Notes', () => {
         });
     });
 
-    it('should return an error when missing "title" field', function () {
+    it('should return an error when missing "title" field', function() {
       const updateItem = {
         'content': 'woof woof'
       };
@@ -286,16 +286,16 @@ describe('Noteful API - Notes', () => {
 
   });
 
-  describe('DELETE /api/notes/:id', function () {
+  describe('DELETE /api/notes/:id', function() {
 
-    it('should delete an existing document and respond with 204', function () {
+    it('should delete an existing document and respond with 204', function() {
       let data;
       return Note.findOne()
         .then(_data => {
           data = _data;
           return chai.request(app).delete(`/api/notes/${data.id}`);
         })
-        .then(function (res) {
+        .then(function(res) {
           expect(res).to.have.status(204);
           return Note.count({ _id: data.id });
         })
