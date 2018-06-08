@@ -64,7 +64,7 @@ describe('Noteful API = Folders', () => {
       return Folder.findOne()
         .then(_data => {
           data = _data;
-          return chai.request(app).get(`/api/notes/${data.id}`);
+          return chai.request(app).get(`/api/folders/${data.id}`);
         })
         .then((res) => {
           expect(res).to.have.a.status(200);
@@ -83,7 +83,7 @@ describe('Noteful API = Folders', () => {
         .get('/api/folders/NOT-A-VALID-ID')
         .then(res => {
           expect(res).to.have.status(400);
-          expect(res.body.message).to.eq('The `id` is not valid');
+          expect(res.body.message).to.eq('The "id" is not valid');
         });
     });
 
@@ -145,9 +145,7 @@ describe('Noteful API = Folders', () => {
   describe('PUT /api/folders/:id', function() {
 
     it('should update the folder when provided valid data', function() {
-      const updateItem = {
-        'name': 'Backburner'
-      };
+      const updateItem = { 'name': 'Backburner' };
       let data;
       return Folder.findOne()
         .then(_data => {
@@ -162,7 +160,7 @@ describe('Noteful API = Folders', () => {
           expect(res.body).to.be.an('object');
           expect(res.body).to.have.all.keys('id', 'name', 'createdAt', 'updatedAt');
           expect(res.body.id).to.equal(data.id);
-          expect(res.body.name).to.equal(data.name);
+          expect(res.body.name).to.equal(updateItem.name);
           expect(new Date(res.body.createdAt)).to.eql(data.createdAt);
           expect(new Date(res.body.updatedAt)).to.greaterThan(data.updatedAt);
         });
@@ -215,14 +213,14 @@ describe('Noteful API = Folders', () => {
     });
   });
 
-  describe('DELETE /api/notes/:id', function() {
+  describe('DELETE /api/folders/:id', function() {
 
     it('should delete an existing document and respond with 204', function() {
       let data;
       return Folder.findOne()
         .then(_data => {
           data = _data;
-          return chai.request(app).delete(`/api/notes/${data.id}`);
+          return chai.request(app).delete(`/api/folders/${data.id}`);
         })
         .then(function(res) {
           expect(res).to.have.status(204);

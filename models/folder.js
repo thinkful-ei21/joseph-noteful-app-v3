@@ -14,7 +14,7 @@ folderSchema.set('timestamps', true);
 
 folderSchema.set('toObject', {
   virtuals: true,
-  versionkey: false,
+  versionKey: false,
   transform: (doc, ret) => {
     delete ret._id;
   }

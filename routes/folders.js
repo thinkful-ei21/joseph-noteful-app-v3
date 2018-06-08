@@ -28,7 +28,7 @@ router.get('/:id', (req, res, next) => {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     const err = new Error('The "id" is not valid');
-    err.status = 404;
+    err.status = 400;
     return next(err);
   }
 
